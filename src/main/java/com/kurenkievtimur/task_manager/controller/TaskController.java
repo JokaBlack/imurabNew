@@ -11,7 +11,12 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/")
-    public String showTasks() {
+    public String showCalendar() {
         return "index";
+    }
+
+    @GetMapping("/tasks")
+    public String showTasks() {
+        return "tasks";
     }
 }
