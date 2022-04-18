@@ -1,7 +1,11 @@
 # Планировщик задач
 ![image](https://user-images.githubusercontent.com/50916640/163797204-6e290583-d2bb-453b-9334-c4a27ffce67a.png)
+
 ![image](https://user-images.githubusercontent.com/50916640/163802205-515bd1ca-3b2b-43e5-a20f-b9261b85913a.png)
+
 ![image](https://user-images.githubusercontent.com/50916640/163802520-7a880007-2f9b-41c0-90b9-b03e405319dc.png)
+
+![image](https://user-images.githubusercontent.com/50916640/163802635-f0fc46f6-6406-4ade-b5ab-e49b35a350ca.png)
 
 ## Функциональность
 * Добавление задач
