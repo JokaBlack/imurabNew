@@ -1,0 +1,32 @@
+body {
+    background: linear-gradient(90deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+#fields [data-order=ASC]::after {
+    content: "\25b4";
+}
+
+#fields [data-order=DESC]::after {
+    content: "\25be";
+}
+
+main .container {
+    padding: 20px 0 20px 0;
+    min-height: 91vh;
+}
+
+#fields tbody tr {
+    background-color: white;
+}
+
+.footer {
+    padding-top: 30px;
+    background: #141414;
+    height: 72px;
+}
+
+.footer-text {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 12px;
+}

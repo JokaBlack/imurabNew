@@ -1,0 +1,33 @@
+body {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+.message {
+    background-color: #fff;
+}
+
+.message-action {
+    display: flex;
+    justify-content: end;
+}
+
+.message-action a {
+    border-radius: 0;
+}
+
+#sendMessage {
+    display: block;
+    margin-left: auto;
+}
+
+.footer {
+    padding-top: 30px;
+    background: #141414;
+    height: 72px;
+}
+
+.footer-text {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 12px;
+}

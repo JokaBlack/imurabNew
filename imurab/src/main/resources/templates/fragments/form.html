@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Imurab</title>
+</head>
+<body>
+
+<div th:fragment="inputText(name, label, placeholder, icon, object)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <input type="text" class="form-control" th:name="${name}" th:id="${name}"
+               th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})"
+               th:field="*{__${name}__}"
+               th:placeholder="${placeholder}">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+    </div>
+</div>
+
+<div th:fragment="inputDate(name, label, placeholder, icon, object)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <input type="date" class="form-control" th:name="${name}" th:id="${name}"
+               th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})"
+               th:field="*{__${name}__}"
+               th:placeholder="${placeholder}">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+    </div>
+</div>
+
+<div th:fragment="inputPassword(name, label, placeholder, icon, object, password)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <input type="password" class="form-control" th:name="${name}" th:id="${name}"
+               th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})"
+               th:value="*{__${name}__}"
+               th:placeholder="${placeholder}">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+        <i th:class="'bi bi-eye-slash ' + ${password} + ' password'"></i>
+    </div>
+</div>
+
+<div th:fragment="inputTextValid(name, label, placeholder, icon, object, valid)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <input type="text" class="form-control" th:name="${name}" th:id="${name}"
+               th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})"
+               th:field="*{__${name}__}"
+               th:placeholder="${placeholder}">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+        <div class="valid-feedback" th:text="${valid}"></div>
+    </div>
+</div>
+
+<!--select для enum-->
+<div th:fragment="select1(name, label, placeholder, icon, object, values)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <select type="select" class="form-select" th:name="${name}" th:id="${name}"
+                th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})">
+            <option disabled value="" th:text="${placeholder}"></option>
+            <option th:each="value : ${values}" th:value="${value}" th:text="${value}"
+                    th:field="*{__${name}__}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+    </div>
+</div>
+
+<!--select для объектов-->
+<div th:fragment="select2(name, label, placeholder, icon, object, values)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <select type="select" class="form-select" th:name="${name}" th:id="${name}"
+                th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})">
+            <option selected disabled value="" th:text="${placeholder}"></option>
+            <option th:each="value : ${values}" th:value="${value.getId()}" th:text="${value.getName()}"
+                    th:field="*{__${name}__}"></option>
+        </select>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+    </div>
+</div>
+
+<div th:fragment="textArea(name, label, placeholder, icon, object)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <textarea class="form-control" rows="15" th:name="${name}" th:id="${name}"
+                  th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})"
+                  th:field="*{__${name}__}"
+                  th:placeholder="${placeholder}"></textarea>
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+    </div>
+</div>
+</th:block>
+
+<div th:fragment="inputFile(name, label)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <input type="file" class="form-control" th:name="${name}" th:id="${name}" accept="image/*">
+    </div>
+</div>
+
+<div th:fragment="inputFile2(name, label, object)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <input type="file" class="form-control" th:name="${name}" th:id="${name}" accept="image/*"
+               th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+    </div>
+</div>
+
+<div th:fragment="inputNumber(name, label, placeholder, icon, object)">
+    <label th:for="${name}" class="form-label" th:text="${label}"></label>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><i th:class="${icon}"></i></span>
+        <input type="number" class="form-control" th:name="${name}" th:id="${name}" step="0.01"
+               th:classappend="${#fields.hasErrors(name)} ? 'is-invalid' : (${#strings.isEmpty(object) ? '' : 'is-valid'})"
+               th:field="*{__${name}__}"
+               th:placeholder="${placeholder}">
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(name)}" th:errors="*{__${name}__}"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+body {
+    background: linear-gradient(270deg, #DBF3FC 0%, #ABD8F8 100%);;
+}
+
+#text-input {
+    min-height: 35vh;
+}

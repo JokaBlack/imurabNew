@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/news.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<div class="container" style="min-height: 84vh">
+    <div id="newsSearch" class="my-2">
+        <form method="get" th:action="@{/news/avp}" class="d-flex" role="search">
+            <input class="form-control me-2" name="search" type="search" th:placeholder="#{navbar.search}"
+                   aria-label="Search">
+            <button class="btn btn-outline-success" type="submit" th:text="#{navbar.search}"></button>
+        </form>
+    </div>
+    <div id="news">
+    </div>
+    <ul class="pagination">
+
+    </ul>
+    <div th:replace="fragments/general.html :: deleteModal(#{news.delete.confirm}, #{news.delete.confirm.text})"></div>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script>
+    let createdAt = "[[#{news.createdAt}]]"
+    let principal = "[[${#authentication.principal} == 'anonymousUser' ? ${#authentication.principal} : ${#authentication.principal.user.role}]]"
+    let avpId = "[[${#authentication.principal} == 'anonymousUser' ? ${#authentication.principal} : ${#authentication.principal.user.avp.id}]]"
+</script>
+<script src="/js/news-avp.js"></script>
+<script src="/js/pagination.js"></script>
+</body>
+</html>

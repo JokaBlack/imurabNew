@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/fields.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+
+<main class="field-edit">
+    <div class="container">
+        <div class="card rounded-0" style="min-height: 84vh">
+            <div class="card-body">
+                <form th:method="put" th:action="@{/fields/{id}/edit (id=${fieldDto.id})}" th:object="${fieldDto}" ,
+                      enctype="multipart/form-data">
+                    <legend class="fw-bold text-center" th:text="#{form.field.edit}"></legend>
+                    <div th:replace="fragments/form.html :: inputText('name', #{field.name}, #{field.name.text}, 'bi bi-card-text', ${fieldDto.getName()})"></div>
+                    <div th:replace="fragments/form.html :: inputNumber('size', #{field.size}, #{field.size.text}, 'bi bi-card-text', ${fieldDto.getSize()})"></div>
+                    <div th:replace="fragments/form.html :: select2('fieldCropsId', #{field.culture.name}, #{field.culture.name.text}, 'bi bi-card-list', ${fieldDto.getFieldCropsId()}, ${cultures})"></div>
+                    <div th:replace="fragments/form.html :: select2('departmentId', #{field.department.name}, #{field.department.name.text}, 'bi bi-card-list', ${fieldDto.getDepartmentId()}, ${departments})"></div>
+                    <input type="submit" class="btn btn-primary" th:value="#{form.submit}">
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="/js/bootstrap.bundle.js"></script>
+<div th:replace="fragments/general.html :: footer()"></div>
+</body>
+</html>

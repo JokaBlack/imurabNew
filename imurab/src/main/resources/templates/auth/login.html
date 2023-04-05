@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div class="container">
+    <div class="card col-12 col-sm-8 col-md-6 col-lg-4 my-5 m-auto">
+        <div class="card-body">
+            <div class="icons text-center">
+                <i class="bi bi-person-circle fs-1"></i>
+            </div>
+            <form method="post" th:action="@{/auth/login}">
+                <div class="rounded text-center bg-danger" th:if="${param.locked}">
+                    <p class="p-1 text-white" th:text="#{login.locked}"></p>
+                </div>
+                <div class="rounded text-center bg-danger" th:if="${param.error}">
+                    <p class="p-1 text-white" th:text="#{login.error}"></p>
+                </div>
+                <div class="rounded text-center bg-success" th:if="${param.logout}">
+                    <p class="p-1 text-white" th:text="#{login.logout}"></p>
+                </div>
+                <div class="input-field mb-3">
+                    <label for="email" class="form-label" th:text="#{user.email}"></label>
+                    <input type="text" class="form-control" id="email" name="email">
+                </div>
+                <div class="input-field mb-3">
+                    <label for="password" class="form-label" th:text="#{user.password}"></label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    <i class="bi bi-eye-slash showHidePw"></i>
+                </div>
+                <div class="mb-3 d-flex justify-content-between">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                        <label for="remember" th:text="#{login.remember}"></label>
+                    </div>
+                    <a href="/auth/reset-password" th:text="#{login.forgotPassword}"></a>
+                </div>
+                <div class="mb-3 d-grid">
+                    <input type="submit" class="btn btn btn-primary" th:value="#{login.signUp}">
+                </div>
+                <div class="d-flex justify-content-center mb-1">
+                    <p th:text="#{login.registration }"></p>
+                    <a href="/auth/registration" th:text="#{user.registration}"></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/login.js"></script>
+</body>
+</html>

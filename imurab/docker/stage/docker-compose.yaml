@@ -1,0 +1,41 @@
+version: "3.3"
+
+networks:
+  imurab:
+
+services:
+
+  db:
+    container_name: imurab_db
+    networks:
+      imurab:
+    image: postgres:12.13
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Qwerty12#
+    ports:
+      - "5432-5432"
+    volumes:
+      - ./data_db:/var/lib/postgresql/data:rw
+    expose:
+      - "5432"
+    logging:
+      options:
+        max-size: 100m
+
+  app:
+    container_name: imurab_app
+    networks:
+      imurab:
+    image: imurab_app:latest
+    ports:
+      - "8089:8080"
+    volumes:
+      - ./logs:/app/logs
+      - ../../projectImages:/app/projectImages
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: stage
+    depends_on:
+      - db

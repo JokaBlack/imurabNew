@@ -1,0 +1,83 @@
+.filter-bar {
+    min-width: 420px;
+}
+
+body {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+.filter-bar ul {
+    list-style: none;
+    display: flex;
+}
+
+.filter-bar ul li {
+    padding: 5px;
+}
+
+.filter-bar ul li:hover {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+.filter-bar ul li.active {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+.filter-bar ul .list-item {
+    font-size: calc(0.75rem + .1vw)
+}
+
+#topics tr {
+    background-color: #fff;
+}
+
+#topics tr a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#topics tr a:hover:not(#topics .forum-delete, #topics .forum-edit) {
+    text-decoration: underline;
+    color: #0d6efd;
+}
+
+@media (max-width: 500px) {
+    .filter-bar ul .list-item {
+        font-size: calc(0.6rem + .1vw)
+    }
+}
+
+.footer {
+    padding-top: 30px;
+    background: #141414;
+    height: 72px;
+}
+
+.footer-text {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+#topics .forum-delete {
+    color: #fff;
+}
+
+#topics .forum-edit {
+    color: #fff;
+}
+
+input[type="submit"] {
+    display: block;
+    width: 10%;
+    margin-left: auto;
+}
+
+
+

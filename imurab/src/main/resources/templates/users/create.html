@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/registration.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<div class="container">
+    <div class="card rounded-0">
+        <div class="card-body">
+            <form method="post" th:action="@{/users/create}" th:object="${userDto}" enctype="multipart/form-data">
+                <legend class="fw-bold text-center" th:text="#{form.user.create}"></legend>
+                <div th:replace="fragments/form.html :: inputText('firstName', #{user.firstName}, #{user.firstName.text}, 'bi bi-card-text', ${userDto.getFirstName()})"></div>
+                <div th:replace="fragments/form.html :: inputText('lastName', #{user.lastName}, #{user.lastName.text}, 'bi bi-card-text', ${userDto.getLastName()})"></div>
+                <div th:replace="fragments/form.html :: inputText('patronymic', #{user.patronymic}, #{user.patronymic.text}, 'bi bi-card-text', ${userDto.getPatronymic()})"></div>
+                <div th:replace="fragments/form.html :: inputText('email', #{user.email}, #{user.email.text}, 'bi bi-envelope', ${userDto.getEmail()})"></div>
+                <div th:replace="fragments/form.html :: inputText('phone', #{user.phone}, #{user.phone.text}, 'bi bi-card-text', ${userDto.getPhone()})"></div>
+                <div th:replace="fragments/form.html :: inputPassword('password', #{user.password}, #{user.password.text}, 'bi bi-key', ${userDto.getPassword()}, 'showHidePw')"></div>
+                <div th:replace="fragments/form.html :: inputPassword('confirmPassword', #{user.repeatPassword}, #{user.repeatPassword.text}, 'bi bi-key', ${userDto.getConfirmPassword()}, 'showHidePwc')"></div>
+                <div th:replace="fragments/form.html :: select1('role', #{user.role}, #{user.role.text}, 'bi bi-card-list', ${userDto.getRole()}, ${roles})"></div>
+                <div th:replace="fragments/form.html :: select2('avpId', #{user.avp}, #{user.avp.text}, 'bi bi-card-list', ${userDto.getAvpId()}, ${avp})"></div>
+                <input class="btn btn-success" type="submit" th:value="#{form.submit}">
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/registration.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+.input-field {
+    position: relative;
+}
+
+.input-field i {
+    position: absolute;
+    top: 50%;
+    font-size: 21px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#remember {
+    cursor: pointer;
+}

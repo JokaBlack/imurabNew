@@ -1,0 +1,23 @@
+body {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+#departments {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+#departments {
+    min-height: 84vh;
+}
+
+#departments {
+    border: none;
+}
+
+#departmentsTable td {
+    border: none;
+}
+
+#departmentsTable tr {
+    background-color: white;
+}

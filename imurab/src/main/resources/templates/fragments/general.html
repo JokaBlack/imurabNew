@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:fragment="cardInfo(header, body, color, icon, token)">
+    <div class="card col-12 col-sm-10 col-md-8 col-lg-6 text-center m-auto">
+        <div class="card-header">
+            <h5 th:class="'card-title ' + ${color} + ' m-0'">
+                <i th:class="${icon}"> [[${header}]]</i>
+            </h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text" th:text="${body}"></p>
+            <div class="d-grid">
+                <form th:if="${token}" class="d-grid" th:method="put"
+                      th:action="@{/auth/resend-password/{id}(id=${token.getId()})}">
+                    <input type="submit" class="btn btn-primary d-block" th:value="#{form.send}">
+                </form>
+                <a th:if="${#bools.isFalse(token)}" href="/auth/login" class="btn btn-primary"
+                   th:text="#{login.back}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="navbar()">
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg bg-primary">
+        <div class="container">
+            <a class="navbar-brand" id="logo" th:href="@{/}">
+                <img src="/img/logo.png" width="80px" alt="imurab">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-50 flex-wrap">
+                    <li sec:authorize="hasAnyRole('ADMIN', 'MODERATOR')" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{navbar.users}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/users" th:text="#{navbar.users.all}"></a></li>
+                            <li><a class="dropdown-item" href="/users/create" th:text="#{navbar.users.create}"></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{news}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/news" th:text="#{news.all}"></a></li>
+                            <li sec:authorize="hasAnyRole('OPERATOR', 'ADMIN')"><a class="dropdown-item" href="/news/avp" th:text="#{news.avp.all}"></a></li>
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/news/create" th:text="#{news.create}"></a></li>
+                            <li sec:authorize="hasAnyRole('OPERATOR', 'ADMIN')"><a class="dropdown-item" href="/news/avp/create" th:text="#{news.avp.create}"></a></li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="hasAnyRole('FARMER', 'ADMIN')" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{field.user}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/fields" th:text="#{field.user}"></a></li>
+                            <li><a class="dropdown-item" href="/fields/create" th:text="#{field.create}"></a></li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item text-white">
+                        <a class="nav-link text-white" aria-current="page" th:href="@{/users/profile}"
+                           th:text="#{user.profile}"></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{forum}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/forum" th:text="#{forum}"></a></li>
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/forum/discussion-topic/create" th:text="#{forum.topic.create}"></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{queue}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/queue" th:text="#{queue}"></a></li>
+                            <li sec:authorize="hasAnyRole('OPERATOR', 'ADMIN')"><a class="dropdown-item" href="/queue/review" th:text="#{queue.review}"></a></li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{avp}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/avp" th:text="#{avp.all}"></a></li>
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/avp/create" th:text="#{avp.create}"></a></li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{departments}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/department" th:text="#{departments.all}"></a></li>
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/department/create" th:text="#{departments.create}"></a></li>
+                        </ul>
+                    </li>
+                    <li sec:authorize="hasAnyRole('ADMIN')" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{culture}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/field-crops" th:text="#{culture.all}"></a></li>
+                            <li sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')"><a class="dropdown-item" href="/field-crops/create" th:text="#{culture.create}"></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" th:text="#{lang}">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="?lang=ru" th:text="#{lang.ru}"></a></li>
+                            <li><a class="dropdown-item" href="?lang=kg" th:text="#{lang.kg}"></a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <div sec:authorize="isAuthenticated()" class="user" style="color: #ffffff">
+                    [[#{user}]]: [[${#authentication.principal.user.firstName}]]
+                    [[${#authentication.principal.user.lastName}]] <a class="btn btn-danger" href="/auth/logout"><i
+                        class="bi bi-box-arrow-left me-2"></i>[[#{logout}]]</a>
+                </div>
+                <div sec:authorize="isAnonymous()" class="login">
+                    <a class="btn btn-success" href="/auth/login"><i class="bi bi-box-arrow-in-right me-2"></i>[[#{login}]]</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="deleteModal(title, text)">
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="${title}"></h5>
+                    <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="${text}"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="close" type="button" class="btn btn-secondary"
+                            th:text="#{delete.modal.close}"></button>
+                    <a id="delete" class="btn btn-danger" th:text="#{delete.modal.confirm}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="fieldCard(id, name, culture, department, size)">
+    <div class="col">
+        <div class="card h-100">
+            <h3 class="card-title2"> [[${name}]] [[${department.name}]] </h3>
+            <p class="card-text2"> [[${size}]] Га</p>
+            <p class="card-text2"> [[${culture.name}]]</p>
+            <div class="h-100">
+                <img th:src="@{culture.imglink}" class="card-img-top" alt="">
+            </div>
+            <div class="card-body text-center block-3-card">
+                <a th:href="@{/field/{id}(id=${id})}" class="btn btn-primary w-50 mb-3 block-3-button">Показать</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer" th:fragment="footer()">
+    <div class="container">
+        <p class="footer-text">© 2023 IMurab</p>
+    </div>
+</footer>
+<div th:fragment="navbarScript()">
+    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+</div>
+
+<div th:fragment="option(id, class, icon)">
+    <button type="button" th:id="${id}" th:class="${class}">
+        <i th:class="${icon}"></i>
+    </button>
+</div>
+
+<div th:fragment="font(id, class)">
+    <select th:id="${id}" th:class="${class}">
+
+    </select>
+</div>
+
+<div th:fragment="color(id, class, text)">
+    <div class="input-wrapper">
+        <input type="color" th:id="${id}" th:class="${class}">
+        <label th:for="${id}" th:text="${text}"></label>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" th:id="${modalId}"
+     th:fragment="fieldHistoryModalForm(title, modalId, formId, startedAt, endedAt, description, edit)">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="${title}"></h5>
+                    <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:id="${formId}">
+                        <label th:for="${startedAt}" class="form-label" th:text="#{field.history.startedAt}"></label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                            <input type="datetime-local" class="form-control" name="startedAt" th:id="${startedAt}">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <label th:for="${endedAt}" class="form-label" th:text="#{field.history.endedAt}"></label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                            <input type="datetime-local" class="form-control" name="endedAt" th:id="${endedAt}">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <label th:for="${description}" class="form-label"
+                               th:text="#{field.history.description}"></label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                            <textarea class="form-control" name="description" th:id="${description}"></textarea>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <input th:if="${edit}" type="hidden" id="historyId" value="">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close">Отмена</button>
+                    <input type="submit" th:form="${formId}" class="btn btn-primary" value="Подтвердить">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="editMessage" th:fragment="editMessageModalForm()">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{message.edit.form}"></h5>
+                    <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editMessageForm">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                            <textarea class="form-control" name="message" id="messageEdit"></textarea>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <input type="hidden" name="id" id="messageId">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close" th:text="#{form.close}"></button>
+                    <input type="submit" form="editMessageForm" class="btn btn-primary" th:value="#{form.submit}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="queue-img-btn()" class="col-lg-4 col-md-6">
+    <div class="card">
+        <div class="card-body">
+            <img src="img/record.png" class="card-img-middle" alt="">
+            <h5 class="card-title">Запись</h5>
+            <p class="card-text">Оставить заявку и занять очередь</p>
+            <button class="btn btn-primary" id="createQueue">Подать заявку на полив</button>
+            <!--                <a href="/queue/" class="btn btn-primary">Подробнее</a>-->
+        </div>
+    </div>
+</div>
+
+<div th:fragment="createQueueModal()" id="createQueueModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div>
+            <select id="field-select" required>
+            </select>
+            <input type="hidden" name="fieldId" value="" id="fieldId">
+            <form id="queue-form">
+                <legend class="fw-bold text-center">Оставить заявку на полив</legend>
+
+                <input type="hidden" name="departmentId" id="departmentId-input">
+                <input type="hidden" name="ok" id="ok-input">
+                <label for="startDate-input">Дата полива:</label>
+                <input type="date" name="startDate" id="startDate-input" placeholder="MM.DD.YYYY">
+                <label for="startTime-input">Время начала полива:</label>
+                <input type="number" name="startTime" id="startTime-input" placeholder="HH">
+                <label for="hour-input">Продолжительность полива:</label>
+                <input type="number" name="hour" id="hour-input" placeholder="HH">
+            </form>
+            <button type="submit" class="btn btn-primary" form="queue-form">Подать заявку</button>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="myActualQueue()" id="myActualQueue">
+    <div class="container">
+        <div class="row mt-5 d-inline-block d-md-flex m-0 pb-3" id="queue-list"
+             style="border: 3px solid #0a6af9; background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);">
+            <span class="card-title">Мои очереди</span>
+        <!-- queue items will be dynamically generated here -->
+        </div>
+    </div>
+</div>
+
+<div th:fragment="createQueueForFieldModal()" id="createQueueForFieldModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="queue-close">&times;</span>
+        <div>
+            <input type="hidden" name="fieldId" value="" id="fieldId">
+            <form id="queue-form">
+                <legend class="fw-bold text-center">Оставить заявку на полив</legend>
+
+                <input type="hidden" name="departmentId" id="departmentId-input">
+                <input type="hidden" name="ok" id="ok-input">
+                <label for="startDate-input">Дата полива:</label>
+                <input type="date" name="startDate" id="startDate-input" placeholder="MM.DD.YYYY">
+                <label for="startTime-input">Время начала полива:</label>
+                <input type="number" name="startTime" id="startTime-input" placeholder="HH">
+                <label for="hour-input">Продолжительность полива:</label>
+                <input type="number" name="hour" id="hour-input" placeholder="HH">
+            </form>
+            <button type="submit" class="btn btn-primary" form="queue-form">Подать заявку</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/users.css">
+
+    <style>
+        #users [data-order=ASC]::after {
+            content: "\25b4";
+        }
+
+        #users [data-order=DESC]::after {
+            content: "\25be";
+        }
+    </style>
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<div class="main container">
+    <div class="table-responsive">
+        <div id="filter" class="d-flex justify-content-between">
+            <div class="left">
+                <select id="avp" class="form-select w-auto d-inline-block py-0 me-2">
+                    <option selected disabled value="" th:text="#{avp.text}"></option>
+                    <option th:each="avp : ${avp}" th:value="${avp.getId()}" th:text="${avp.getName()}"></option>
+                </select>
+            </div>
+            <div class="right">
+                <form method="get" th:action="@{/users}" class="d-flex" role="search">
+                    <input class="form-control me-2" name="search" type="search" th:placeholder="#{navbar.search}"
+                           aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit" th:text="#{navbar.search}"></button>
+                </form>
+            </div>
+        </div>
+        <table id="users" class="table table-striped col-sm-12">
+            <thead>
+            <tr>
+                <th data-column="firstName" data-order="DESC" scope="col" th:text="#{user.firstName}"></th>
+                <th data-column="lastName" data-order="DESC" scope="col" th:text="#{user.lastName}"></th>
+                <th data-column="patronymic" data-order="DESC" scope="col" th:text="#{user.patronymic}"></th>
+                <th data-column="email" data-order="DESC" scope="col" th:text="#{user.email}"></th>
+                <th data-column="phone" data-order="DESC" scope="col" th:text="#{user.phone}" style="min-width: 200px"></th>
+                <th data-column="role" data-order="DESC" scope="col" th:text="#{user.role}"></th>
+                <th scope="col" class="text-center" th:text="#{user.action}"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <ul class="pagination">
+
+    </ul>
+    <div th:replace="fragments/general.html :: deleteModal(#{user.delete.confirm}, #{user.delete.confirm.text})"></div>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<script>
+    let userDelete = "[[#{user.delete}]]"
+    let userEdit = "[[#{user.edit}]]"
+    let userActivation = "[[#{user.activation}]]"
+    let userLocked = "[[#{user.locked}]]"
+    let department = "[[#{department.text}]]"
+</script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script src="/js/users.js"></script>
+<script src="/js/pagination.js"></script>
+</body>
+</html>

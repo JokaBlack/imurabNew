@@ -1,0 +1,18 @@
+/*body {*/
+/*    background: linear-gradient(270deg, #DAF2FC 0%, #ACD8F8 100%);*/
+/*}*/
+
+/*.container {*/
+/*    background: #E5E5E5;*/
+/*}*/
+
+.message {
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.message .header {
+    background-color: #dee2e6;
+    justify-content: space-between;
+}

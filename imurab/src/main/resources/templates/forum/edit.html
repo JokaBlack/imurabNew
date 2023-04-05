@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/forum.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<div class="container">
+    <div class="card rounded-0" style="min-height: 83vh">
+        <div class="card-body">
+            <form th:method="put" th:action="@{/forum/discussion-topic/{id}(id=${topicDto.getId()})}" th:object="${topicDto}">
+                <legend class="fw-bold text-center" th:text="#{forum.topic.edit.form}"></legend>
+                <div th:replace="fragments/form.html :: inputText('title', #{forum.topic.title}, #{forum.topic.title.text}, 'bi bi-card-text', ${topicDto.getTitle()})"></div>
+                <div th:replace="fragments/form.html :: textArea('description', #{forum.topic.description}, #{forum.topic.description.text}, 'bi bi-card-text', ${topicDto.getDescription()})"></div>
+                <input class="btn btn-success" type="submit" th:value="#{form.submit}">
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<script src="/js/bootstrap.bundle.js"></script>
+</body>
+</html>

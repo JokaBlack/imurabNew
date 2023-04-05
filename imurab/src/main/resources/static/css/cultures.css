@@ -1,0 +1,19 @@
+body {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+#cultures {
+    min-height: 84vh;
+}
+
+#culturesTable {
+    border: none;
+}
+
+#culturesTable td {
+    border: none;
+}
+
+#culturesTable tr {
+    background-color: white;
+}

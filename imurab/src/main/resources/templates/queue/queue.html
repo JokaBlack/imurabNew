@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+
+<div sec:authorize="hasRole('FARMER')" th:replace="fragments/general.html :: myActualQueue()"></div>
+
+<div class="row d-md-flex m-0">
+    <div class="block-1">
+        <div class="container mt-lg-5 mt-md-4 mt-sm-1 mb-lg-5 mb-md-4 mb-sm-1">
+            <div class="row mt-5 d-inline-block d-md-flex m-0 pb-3"
+                 style="border: 3px solid #0a6af9; background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);">
+                <span class="card-title">На очереди</span>
+                <div class="col-lg-6 col-sm-12  pt-3 mx-auto">
+                    <form id="queue-form">
+                        <div class="row row-cols-1 pt-3 py-3 mx-auto">
+                            <div class="dropdown col-4">
+                                <select id="selectAVP" class="form-select col-6" onchange="myFunction()">
+                                    <option selected>Выберите АВП</option>
+                                    <option th:each="avp : ${AVPs}" th:text="${avp.name}" th:value="${avp.id}"
+                                            th:name="AVP+${avp.id}"></option>
+                                </select>
+                            </div>
+                            <div class="dropdown col-4">
+                                <select id="selectDepartment" class="form-select col-6">
+                                    <option selected>Выберите участок</option>
+                                    <option th:each="department : ${departments}" th:text="${department.name}"
+                                            th:value="${department.id}" th:id="departmentId+${department.id}"
+                                            th:name="department+${department.id}"></option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-primary w-100 mb-3 block-3-button" type="submit">Показать
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <div class="row" style="background: #80b6b9; color: #09508a">
+                                    <div class="col-3">Дата:</div>
+                                    <div class="col-3">Участок:</div>
+                                    <div class="col-3">Поле:</div>
+                                    <div class="col-3">Фермер:</div>
+                                </div>
+                                <div id="queue"></div>
+                            </div>
+                            <a href="#" class="btn btn-primary w-100 mb-3 block-3-button" onclick="location.reload()">Показать
+                                всех</a>
+                            <ul class="pagination"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block-2 d-flex justify-content-center align-items-center">
+        <div class="container mt-lg-5 mt-md-4 mt-sm-1 mb-lg-5 mb-md-4 mb-sm-1">
+            <div class="row col-12 pt-3 py-3 mx-auto mt-md-4 mt-sm-1">
+                <div id="divVacantDays" class="row align-items-center mx-auto g-4">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    <div class="block-1">-->
+    <!--        <div class="container mt-lg-5 mt-md-4 mt-sm-1 mb-lg-5 mb-md-4 mb-sm-1">-->
+    <!--            <div class="row mt-5 d-inline-block d-md-flex m-0 pb-3"-->
+    <!--                 style="border: 3px solid #0a6af9; background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);">-->
+    <!--                <span class="card-title text-center">Распределение воды АВП</span>-->
+    <!--                <div class="col-lg-6 col-sm-12  pt-3">-->
+    <!--                    <div class="card">-->
+    <!--                        <div class="card-body">-->
+    <!--                            <ul class="card-text" id="Top10WateringMan">-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #5bbc2e;">800 л.</canvas>-->
+    <!--                                    Асанов Бектур-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #2e60bc;">700 л.</canvas>-->
+    <!--                                    Рахманов Нурлан-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #bc2e52;">600 л.</canvas>-->
+    <!--                                    Тилеков Эркин-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #cdeb4b;">500 л.</canvas>-->
+    <!--                                    Сагындыков М.-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #f11c92;">400 л.</canvas>-->
+    <!--                                    Балбаков Бектур-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #2acde2;">300 л.</canvas>-->
+    <!--                                    Маманов Нурлан-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #fc580d;">200 л.</canvas>-->
+    <!--                                    Жуманов Эркин-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #80b6b9;">100 л.</canvas>-->
+    <!--                                    Турганов Сагын-->
+    <!--                                </p>-->
+    <!--                                <p style="white-space: pre-wrap;">-->
+    <!--                                    <canvas class="canvas" style="background-color: #b3560b;">50 л.</canvas>-->
+    <!--                                    Остальные-->
+    <!--                                </p>-->
+    <!--                            </ul>-->
+    <!--                            <a href="#" class="btn btn-primary w-100 mb-3 block-3-button">Показать всех</a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="col-lg-6 col-sm-12 text-center pt-3">-->
+    <!--                    <canvas id="canv" width="200" height="200"></canvas>-->
+    <!--                </div>-->
+
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--  <div class="block-2">-->
+    <!--    <div class="calendar-wrapper row col-12 pt-3 py-3 mx-auto mt-md-4 mt-sm-1">-->
+    <!--      <div id="divCal" class="col-md-6 col-sm-12"></div>-->
+    <!--      <div id="divCal2" class="col-md-6 col-sm-12"></div>-->
+    <!--  </div>-->
+    <!--    <div class="row justify-content-around mx-auto" style="max-width: 700px">-->
+    <!--      <div id="btnPrev" class="btn btn-secondary w-25 mb-3 block-3-button col-md-4 col-sm-12 mx-auto"><<<</div>-->
+    <!--      <div id="btnNext" class="btn btn-secondary w-25 mb-3 block-3-button col-md-4 col-sm-12 mx-auto">>>></div>-->
+    <!--    </div>-->
+    <!--  </div>-->
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+
+<script sec:authorize="hasRole('FARMER')">
+    const loginUserId = [[${#authentication.principal.user.id}]]
+</script>
+<!--<script src="/js/canv.js"></script>-->
+<script src="/js/queue.js"></script>
+<script src="/js/pagination.js"></script>
+</body>
+</html>

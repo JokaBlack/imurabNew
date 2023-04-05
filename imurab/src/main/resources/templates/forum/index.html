@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/css/forum.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+
+<div class="container" style="min-height: 83vh">
+    <div class="table-responsive mt-2">
+        <div id="filter-bar" class="filter-bar bg-primary text-white mb-1 rounded-3 p-1 d-flex justify-content-between" style="min-width: 700px">
+            <ul class="d-flex mb-0">
+                <li data-column="createdAt" data-order="DESC" class="list-item" th:text="#{forum.sort.created}"></li>
+                <li data-column="views" data-order="DESC" class="list-item mx-2" th:text="#{forum.sort.views}"></li>
+                <li data-column="messages" data-order="DESC" class="list-item" th:text="#{forum.sort.messages}"></li>
+            </ul>
+            <div class="right">
+                <form method="get" th:action="@{/forum}" class="d-flex" role="search">
+                    <input class="form-control me-2" name="search" type="search" th:placeholder="#{navbar.search}"
+                           aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit" th:text="#{navbar.search}"></button>
+                </form>
+            </div>
+        </div>
+        <table id="topics" class="table col-sm-12" style="min-width: 700px">
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <ul class="pagination">
+
+    </ul>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<div th:replace="fragments/general.html :: deleteModal(#{forum.delete}, #{forum.delete.text})"></div>
+<script>
+    let author = "[[#{forum.topic.author}]]"
+    let createdAt = "[[#{forum.topic.created}]]"
+    let views = "[[#{forum.topic.views}]]"
+    let messages = "[[#{forum.topic.messages}]]"
+    let principal = "[[${#authentication.principal} == 'anonymousUser' ? ${#authentication.principal} : ${#authentication.principal.user.role}]]"
+</script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script src="/js/forum.js"></script>
+<script src="/js/pagination.js"></script>
+</body>
+</html>

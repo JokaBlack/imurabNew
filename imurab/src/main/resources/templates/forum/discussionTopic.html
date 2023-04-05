@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/discussion-topic.css">
+    <link rel="stylesheet" href="/css/messages.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<div class="container" style="min-height: 83vh">
+    <h2>[[#{forum.title}]]: [[${topic.getTitle()}]]</h2>
+    <div class="message mb-3">
+        <div class="header d-flex p-1">
+            <p class="m-0 fw-bold" th:text="${topic.getFio()}"></p>
+            <p class="m-0" th:text="${#temporals.format(topic.getCreatedAt(), 'dd.MM.yyyy HH:mm')}"></p>
+        </div>
+        <div class="body">
+            <p><span style="font-weight: bold">[[#{forum.subtitle}]]:</span> [[${topic.getDescription()}]]</p>
+        </div>
+    </div>
+
+    <div id="messages">
+
+    </div>
+
+    <div sec:authorize="isAuthenticated()" class="input-group mb-2">
+        <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+        <textarea class="form-control" name="message" id="message"></textarea>
+        <div class="invalid-feedback"></div>
+    </div>
+    <button sec:authorize="isAuthenticated()" id="sendMessage" class="btn btn-primary" th:text="#{forum.topic.message.submit}"></button>
+
+    <ul class="pagination">
+
+    </ul>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<div th:replace="fragments/general.html :: editMessageModalForm"></div>
+<script>
+    let messageDelete = "[[#{message.delete}]]"
+    let messageEdit = "[[#{message.edit}]]"
+    let messageError = "[[#{message.notEmpty}]]"
+    let principal = "[[${#authentication.principal} == 'anonymousUser' ? ${#authentication.principal} : ${#authentication.principal.user.id}]]"
+</script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script src="/js/messages.js"></script>
+<script src="/js/pagination.js"></script>
+</body>
+</html>

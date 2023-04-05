@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/rich-text-editor.css">
+    <link rel="stylesheet" href="/css/news-create.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<div class="container">
+    <div class="card rounded-0" style="min-height: 84.5vh">
+        <div class="card-body">
+            <form th:method="put" th:action="@{/news/{id}/edit(id=${newsDto.getId()})}" th:object="${newsDto}" enctype="multipart/form-data">
+                <legend class="fw-bold text-center" th:text="#{news.form.edit}"></legend>
+                <div th:replace="fragments/form.html :: inputText('title', #{news.title}, #{news.title.text}, 'bi bi-card-text', ${newsDto.getTitle()})"></div>
+                <div th:replace="fragments/form.html :: inputFile('image', #{news.image})"></div>
+                <div class="options">
+                    <div th:replace="fragments/general.html :: option('bold', 'option-button format', 'bi bi-type-bold')"></div>
+                    <div th:replace="fragments/general.html :: option('italic', 'option-button format', 'bi bi-type-italic')"></div>
+                    <div th:replace="fragments/general.html :: option('underline', 'option-button format', 'bi bi-type-underline')"></div>
+                    <div th:replace="fragments/general.html :: option('strikethrough', 'option-button format', 'bi bi-type-strikethrough')"></div>
+                    <div th:replace="fragments/general.html :: option('superscript', 'option-button script', 'bi bi-superscript')"></div>
+                    <div th:replace="fragments/general.html :: option('subscript', 'option-button script', 'bi bi-subscript')"></div>
+
+                    <!--        List-->
+                    <div th:replace="fragments/general.html :: option('insertOrderedList', 'option-button', 'bi bi-list-ol')"></div>
+                    <div th:replace="fragments/general.html :: option('insertUnorderedList', 'option-button', 'bi bi-list-ul')"></div>
+
+                    <!--        Undo/Redo-->
+                    <div th:replace="fragments/general.html :: option('undo', 'option-button', 'bi bi-arrow-counterclockwise')"></div>
+                    <div th:replace="fragments/general.html :: option('redo', 'option-button', 'bi bi-arrow-clockwise')"></div>
+
+                    <!--                Link-->
+                    <div th:replace="fragments/general.html :: option('createLink', 'adv-option-button', 'bi bi-link-45deg')"></div>
+
+                    <!--        Alignment-->
+                    <div th:replace="fragments/general.html :: option('justifyLeft', 'option-button align', 'bi bi-text-left')"></div>
+                    <div th:replace="fragments/general.html :: option('justifyCenter', 'option-button align', 'bi bi-text-center')"></div>
+                    <div th:replace="fragments/general.html :: option('justifyRight', 'option-button align', 'bi bi-justify-right')"></div>
+                    <div th:replace="fragments/general.html :: option('justifyFull', 'option-button align', 'bi bi-justify')"></div>
+                    <div th:replace="fragments/general.html :: option('indent', 'option-button spacing', 'bi bi-text-indent-left')"></div>
+                    <div th:replace="fragments/general.html :: option('outdent', 'option-button spacing', 'bi bi-text-indent-right')"></div>
+
+                    <!--        Headings-->
+                    <select id="formatBlock" class="adv-option-button">
+                        <option value="H1">H1</option>
+                        <option value="H2">H2</option>
+                        <option value="H3">H3</option>
+                        <option value="H4">H4</option>
+                        <option value="H5">H5</option>
+                        <option value="H6">H6</option>
+                    </select>
+
+                    <!--        Font-->
+                    <select id="fontName" class="adv-option-button"></select>
+                    <select id="fontSize" class="adv-option-button"></select>
+
+                    <!--        Color-->
+                    <div th:replace="fragments/general.html :: color('foreColor', 'adv-option-button', 'Font color')"></div>
+                    <div th:replace="fragments/general.html :: color('backColor', 'adv-option-button', 'Highlight color')"></div>
+                </div>
+
+                <div id="text-input" contenteditable="true" th:utext="${newsDto.getText()}"></div>
+                <textarea hidden="hidden" id="textArea" name="text" rows="10"></textarea>
+
+                <input type="submit" class="btn btn-success" th:value="#{news.submit}">
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/rich-text-editor.js"></script>
+</body>
+</html>

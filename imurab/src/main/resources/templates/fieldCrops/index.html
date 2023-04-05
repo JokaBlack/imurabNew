@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/cultures.css">
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<div class="main container" id="cultures">
+    <table class="table table-striped col-sm-12" id="culturesTable">
+        <thead>
+        <tr class="text-center">
+            <th scope="col" th:text="#{avp.name}"></th>
+            <th scope="col" th:text="#{culture.image}"></th>
+            <th scope="col" th:text="#{user.action}"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<ul class="pagination">
+
+</ul>
+<div th:replace="fragments/general.html :: deleteModal(#{culture.delete.confirm}, #{culture.delete.confirm.text})"></div>
+<div th:replace="fragments/general.html :: deleteModal(#{avp.delete.confirm}, #{avp.delete.confirm.text})"></div>
+</div>
+<div th:replace="fragments/general.html :: footer()"></div>
+<script>
+    let avpDelete = "[[#{avp.delete}]]"
+    let avpEdit = "[[#{avp.edit}]]"
+</script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script src="/js/cultures.js"></script>
+<script src="/js/pagination.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/queueModal.css">
+
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+
+<div class="block-1 pb-5">
+    <div class="container">
+        <div class="row mt-5 d-inline-block d-md-flex g-5 m-0">
+            <div class="col text-center">
+                <img src="images/pic-9.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col pt-3">
+                <div class="card">
+                    <div class="card-body pb-sm-5">
+                        <h4 class="advice-title mb-3 text-center">Совет дня:</h4>
+                        <p class="advice-text">И в пустыне можно
+                            урожай получить, если поливать!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-5 d-md-flex g-5 m-0 pb-5 text-center"
+     style="background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);">
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <img src="img/queue.png" class="card-img-middle" alt="">
+                <h5 class="card-title" th:text="#{queue}"></h5>
+                <p class="card-text" th:text="#{queue.current}"></p>
+                <a href="/queue" class="btn btn-primary" th:text="#{more}"></a>
+            </div>
+        </div>
+    </div>
+    <div sec:authorize="hasRole('FARMER')" th:replace="fragments/general.html :: queue-img-btn()"></div>
+</div>
+<h5 sec:authorize="isAuthenticated()" class="card-title my-3 text-center pt-3 pb-3" th:text="#{news.avp}"></h5>
+<div sec:authorize="isAuthenticated()" class="block-3 mb-0">
+    <div class="container mb-0">
+        <div id="newsAvpMain" class="row row-cols-1 row-cols-sm-2  row-cols-md-3 row-cols-lg-4 g-lg-4 g-2"
+             style="align-self:center;">
+        </div>
+        <a class="btn btn-success d-block w-25 mx-auto mt-2" href="/news/avp" th:text="#{news.all}"></a>
+        <ul id="paginationAvpNews" class="pagination m-0"></ul>
+    </div>
+</div>
+
+<h5 class="card-title my-3 text-center pt-3 pb-3" th:text="#{news}"></h5>
+<div class="block-3 mb-5">
+    <div class="container">
+        <div id="globalNews" class="row row-cols-1 row-cols-sm-2  row-cols-md-3 row-cols-lg-4 g-lg-4 g-2"
+             style="align-self:center;">
+        </div>
+        <a class="btn btn-success d-block w-25 mx-auto mt-2" href="/news" th:text="#{news.all}"></a>
+        <ul id="paginationGlobalNews" class="pagination mt-2"></ul>
+    </div>
+</div>
+<script>
+    let more = "[[#{more}]]"
+    let avpIdUser = "[[${#authentication.principal} == 'anonymousUser' ? ${#authentication.principal} : ${#authentication.principal.user.avp.id}]]"
+</script>
+<div th:replace="fragments/general.html :: footer()"></div>
+<div th:replace="fragments/general.html:: createQueueModal()"></div>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script src="/js/createQueue.js"></script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/pagination.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

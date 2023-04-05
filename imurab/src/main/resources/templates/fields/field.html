@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/fields.css">
+    <link rel="stylesheet" href="/css/queueModal.css">
+
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<main class="field">
+    <div class="field-info p-5">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="card col-sm-12 col-md-12 col-lg-5 mb-3 p-0">
+                    <div class="card-body">
+                        <h4 class="text-center fw-bold">[[${fieldDto.getFieldCropsDto().getName()}]] -
+                            [[${fieldDto.getName()}]]</h4>
+                        <ul>
+                            <li>[[#{field.size}]]: [[${fieldDto.getSize()}]] га</li>
+                            <li>[[#{field.avp}]]: [[${fieldDto.getDepartment().getAvpDto().getName()}]]</li>
+                            <li>[[#{field.department.name}]]: [[${fieldDto.getDepartment().getName()}]]</li>
+                            <li class="fw-bold" th:if="${fieldDto.getStatus()} == 'CREATED'"
+                                th:text="#{field.created}"></li>
+                        </ul>
+                    </div>
+                    <div class="card-footer text-center">
+
+                        <button th:if="${fieldDto.getStatus()} == 'CONFIRMED'"
+                                class="btn btn-primary d-block w-100 mb-1" th:text="#{field.queue.create}"
+                                th:onclick="'javascript:createQueueField(' +${fieldDto.id}+')'"></button>
+
+                        <a th:href="@{{id}/edit (id = ${fieldDto.getId()})}"
+                           class="btn btn-success d-block mb-1" th:text="#{field.edit}"></a>
+                        <a th:data-id="${fieldDto.getId()}" class="btn btn-danger d-block" th:text="#{field.delete}"
+                           id="deleteField"></a>
+                    </div>
+
+                    <div class="field-image col-sm-12 col-md-12 col-lg-6 p-0">
+                        <img class="rounded-3"
+                             th:src="@{/projectImages/fieldCrops/{image}(image = ${fieldDto.getFieldCropsDto().getImgLink()})}"
+                             width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="field-history">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <button th:if="${fieldDto.getStatus()} == 'CONFIRMED'" class="btn btn-primary create-history"
+                            th:text="#{field.history.create}"></button>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-center fw-bold" th:text="#{field.history}"></h4>
+                    <ul class="my-0" id="historyList">
+
+                    </ul>
+                    <ul class="pagination">
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/general.html :: deleteModal(#{field.delete}, #{field.delete.text})"></div>
+    <div th:replace="fragments/general.html :: fieldHistoryModalForm(#{field.history.create.form},
+            'fieldHistory','fieldHistoryForm', 'startedAt', 'endedAt', 'description', false)"></div>
+    <div th:replace="fragments/general.html :: fieldHistoryModalForm(#{field.history.edit.form},
+            'editFieldHistory','editFieldHistoryForm', 'editStartedAt', 'editEndedAt', 'editDescription', true)"></div>
+</main>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script>
+    let errorStartedAt = "[[#{field.history.startedAt.error.notNull}]]"
+    let errorEndedAt = "[[#{field.history.endedAt.error.notNull}]]"
+    let errorDescription = "[[#{field.history.description.error.notEmpty}]]"
+</script>
+<div th:replace="fragments/general.html :: footer()"></div>
+<div th:replace="fragments/general.html :: createQueueForFieldModal()"></div>
+<script src="/js/pagination.js"></script>
+<script src="/js/field-history.js"></script>
+<script src="/js/createQueueForFieldPage.js"></script>
+</body>
+</html>

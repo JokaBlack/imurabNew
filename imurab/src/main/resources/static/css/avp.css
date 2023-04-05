@@ -1,0 +1,23 @@
+body {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+#avpEditt {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+#avp {
+    min-height: 84vh;
+}
+
+#avpTable {
+    border: none;
+}
+
+#avpTable td {
+    border: none;
+}
+
+#avpTable tr {
+    background-color: white;
+}

@@ -1,0 +1,19 @@
+body {
+    background: linear-gradient(180deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+#queueReview {
+    min-height: 84vh;
+}
+
+#queueReviewTable {
+    border: none;
+}
+
+#queueReviewTable td {
+    border: none;
+}
+
+#queueReviewTable tr {
+    background-color: white;
+}

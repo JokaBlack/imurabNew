@@ -1,0 +1,21 @@
+body {
+    background: linear-gradient(90deg, #DBF3FC 0%, #ABD8F8 100%);
+}
+
+.main.container {
+    min-height: 82vh;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#users tbody tr {
+    background-color: white;
+}
+
+#users {
+    border: none;
+}
+
+#users td {
+    border: none;
+}

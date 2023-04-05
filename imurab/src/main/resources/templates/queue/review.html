@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/queue-review.css">
+
+    <title>Imurab</title>
+</head>
+<body>
+<div th:replace="fragments/general.html :: navbar()"></div>
+<main id="queueReview">
+    <div class="container">
+        <div class="table-responsive">
+            <div id="filter" class="d-flex justify-content-between mt-2">
+                <div class="left">
+                    <select id="avp" class="form-select w-auto d-inline-block py-0 my-2">
+                        <option selected disabled value="" th:text="#{avp.text}"></option>
+                        <option th:each="avp : ${avp}" th:value="${avp.getId()}" th:text="${avp.getName()}"></option>
+                    </select>
+                    <select id="departments" class="form-select w-auto d-inline-block py-0">
+                        <option selected disabled value="" th:text="#{department.text}"></option>
+                    </select>
+                </div>
+            </div>
+            <table id="queueReviewTable" class="table table-striped col-sm-12">
+                <thead>
+                <tr>
+                    <th th:text="#{field.name}" style="min-width: 200px"></th>
+                    <th th:text="#{field.size}" style="min-width: 200px"></th>
+                    <th th:text="#{fieldCrops.name}" style="min-width: 200px"></th>
+                    <th th:text="#{department.name}" style="min-width: 200px"></th>
+                    <th th:text="#{avp.name}" style="min-width: 200px"></th>
+                    <th th:text="#{user.firstName}" style="min-width: 200px"></th>
+                    <th th:text="#{user.lastName}" style="min-width: 200px"></th>
+                    <th th:text="#{queue.startWatering}" style="min-width: 300px"></th>
+                    <th th:text="#{queue.endWatering}" style="min-width: 300px"></th>
+                    <th scope="col" class="text-center" th:text="#{queue.review.actions}" style="min-width: 300px"></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <ul class="pagination">
+
+        </ul>
+        <div th:replace="fragments/general.html :: deleteModal(#{user.delete.confirm}, #{user.delete.confirm.text})"></div>
+    </div>
+</main>
+<div th:replace="fragments/general.html :: footer()"></div>
+
+<script>
+    let queueReviewConfirm = "[[#{queue.review.confirm}]]"
+    let queueReviewReject = "[[#{queue.review.reject}]]"
+    let department = "[[#{department.text}]]"
+</script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/jquery-3.6.2.min.js"></script>
+<script src="/js/queue-review.js"></script>
+<script src="/js/pagination.js"></script>
+
+</body>
+</html>
